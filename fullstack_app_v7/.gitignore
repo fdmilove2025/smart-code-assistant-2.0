@@ -3,3 +3,6 @@ src/main/resources/application.properties
 
 # Ignore all Maven/Java build output folders
 **/target/ 
+
+# Ignore node_modules for frontend dependencies
+node_modules/ 

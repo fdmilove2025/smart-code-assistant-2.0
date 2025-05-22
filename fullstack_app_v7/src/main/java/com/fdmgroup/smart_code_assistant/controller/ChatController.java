@@ -47,6 +47,19 @@ public class ChatController {
 		}
 	}
 
+	@PostMapping("/session/{name}/{botType}/{language}")
+	public ResponseEntity<ChatSession> createNewSessionWithLanguage(@PathVariable String name, @PathVariable String botType, @PathVariable String language) {
+		try {
+			logger.info("Creating new session with name: {}, bot type: {}, language: {}", name, botType, language);
+			ChatSession newSession = chatSessionService.getNewSession(name, botType, language);
+			logger.info("Created new session: {}", newSession.getSessionId());
+			return ResponseEntity.ok(newSession);
+		} catch (Exception e) {
+			logger.error("Error creating new session: {}", e.getMessage(), e);
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
 	@GetMapping("/bot-types")
 	public ResponseEntity<List<String>> getAvailableBotTypes() {
 		try {
@@ -137,6 +150,19 @@ public class ChatController {
 			return ResponseEntity.ok(session);
 		} catch (Exception e) {
 			logger.error("Error updating session {}: {}", id, e.getMessage(), e);
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping("/languages")
+	public ResponseEntity<List<String>> getAvailableLanguages() {
+		try {
+			logger.info("Retrieving available languages");
+			List<String> languages = chatSessionService.getAvailableLanguages();
+			logger.info("Retrieved {} languages", languages.size());
+			return ResponseEntity.ok(languages);
+		} catch (Exception e) {
+			logger.error("Error retrieving languages: {}", e.getMessage(), e);
 			return ResponseEntity.badRequest().build();
 		}
 	}

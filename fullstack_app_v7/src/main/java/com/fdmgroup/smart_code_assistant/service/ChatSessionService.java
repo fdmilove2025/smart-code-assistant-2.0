@@ -20,10 +20,14 @@ public class ChatSessionService {
 	@Autowired
 	private ChatSessionRepository chatSessionRepository;
 
-	public ChatSession getNewSession(String name, String botType) {
+	public ChatSession getNewSession(String name, String botType, String language) {
 		User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		ChatSession session = new ChatSession(name, botType, currentUser);
+		ChatSession session = new ChatSession(name, botType, language, currentUser);
 		return chatSessionRepository.save(session);
+	}
+
+	public ChatSession getNewSession(String name, String botType) {
+		return getNewSession(name, botType, "Python");
 	}
 
 	public Optional<ChatSession> getExistingSession(Long id) {
@@ -60,5 +64,16 @@ public class ChatSessionService {
 				"leetcode",
 				"code_mentor",
 				"code_explainer");
+	}
+
+	public List<String> getAvailableLanguages() {
+		return Arrays.asList(
+				"Python",
+				"Java",
+				"C++",
+				"Javascript",
+				"Mojo",
+				"Scala"
+		);
 	}
 }

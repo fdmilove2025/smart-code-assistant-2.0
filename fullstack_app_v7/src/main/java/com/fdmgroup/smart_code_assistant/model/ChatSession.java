@@ -25,6 +25,8 @@ public class ChatSession {
 
 	private String botType;
 
+	private String language;
+
 	@OneToMany(mappedBy = "chatSession", cascade = jakarta.persistence.CascadeType.ALL)
 	private Set<ChatMessage> messages = new HashSet<>();
 
@@ -36,10 +38,11 @@ public class ChatSession {
 		super();
 	}
 
-	public ChatSession(String sessionName, String botType, User user) {
+	public ChatSession(String sessionName, String botType, String language, User user) {
 		super();
 		this.sessionName = sessionName;
 		this.botType = botType;
+		this.language = language;
 		this.user = user;
 	}
 
@@ -65,6 +68,14 @@ public class ChatSession {
 
 	public void setBotType(String botType) {
 		this.botType = botType;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 	public Set<ChatMessage> getMessages() {

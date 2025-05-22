@@ -62,7 +62,7 @@ public class ChatMessageService {
 			logger.info("Using model: {} for session {}", model, sessionId);
 
 			// Create a system message based on the bot type
-			String systemPrompt = getSystemPromptForBotType(botType);
+			String systemPrompt = getSystemPromptForBotType(botType, currentSession.getLanguage());
 			Message systemMessage = new SystemMessage(systemPrompt);
 			Message userMessage = new UserMessage(userInput.getMessage());
 
@@ -98,7 +98,7 @@ public class ChatMessageService {
 		}
 	}
 
-	private String getSystemPromptForBotType(String botType) {
+	private String getSystemPromptForBotType(String botType, String language) {
 		String baseInstructions = "You are a specialized coding assistant. You must ONLY answer questions related to programming, software development, and technical topics. " +
 			"If asked about non-technical topics (like weather, sports, news, etc.), respond with: 'I am a coding assistant and cannot answer questions outside of programming and technical topics. " +
 			"Please ask me about coding, software development, or technical questions.' " +
@@ -144,7 +144,8 @@ public class ChatMessageService {
 						+ "providing solutions with clear logic, and explaining time and space complexity. "
 						+ "Suggest alternative approaches and compare their efficiency. "
 						+ "Include code snippets in the user's preferred language and discuss edge cases. "
-						+ "When asked, identify yourself as a chatbot created by the Code Reapers Team.";
+						+ "When asked, identify yourself as a chatbot created by the Code Reapers Team. "
+						+ "Always use this programming language for code and explanations: " + language + ". ";
 			default:
 				return baseInstructions + " You are a general-purpose coding assistant named General Code Reaper. "
 						+ "You are a chatbot engineered by the Code Reapers Team. "
