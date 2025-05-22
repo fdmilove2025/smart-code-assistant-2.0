@@ -1,0 +1,5 @@
+# Ignore application.properties for local secrets
+src/main/resources/application.properties 
+
+# Ignore all Maven/Java build output folders
+**/target/ 
